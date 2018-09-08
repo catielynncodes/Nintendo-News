@@ -52,10 +52,10 @@ public final class QueryUtils {
         }
 
         // Extract relevant fields from the JSON response and create a list of {@link News}s
-        List<News> news = extractNewsFromJson(jsonResponse);
+        List<News> newsList = extractFeatureFromJson(jsonResponse);
 
         // Return the list of {@link News}s
-        return news;
+        return newsList;
     }
 
     /**
@@ -137,40 +137,68 @@ public final class QueryUtils {
      * Return a list of {@link News} objects that has been built up from
      * parsing the given JSON response.
      */
-    private static List<News> extractNewsFromJson(String jsonResponse) {
-        String title;
-        String author;
-        String date;
-        String urlSource;
+    private static List<News> extractFeatureFromJson(String newsJSON) {
+        String articleTitle;
+        String articleSection;
+        String articlePublishDate;
+        String articleUrl;
 
-        //Check if JSON is null
-        if (TextUtils.isEmpty(jsonResponse)) {
+        // If the JSON string is empty or null, then return early.
+        if (TextUtils.isEmpty(newsJSON)) {
             return null;
         }
-        List<News> myNews = new ArrayList<>();
-        try {
-            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
 
+        // Create an empty ArrayList that we can start adding earthquakes to
+        List<News> newsList = new ArrayList<>();
+
+        // Try to parse the JSON response string. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+
+            // Create a JSONObject from the JSON response string
+            JSONObject baseJsonResponse = new JSONObject(newsJSON);
+
+            // Extract the JSONObject associated with the key called "response"
             JSONObject baseJsonResponseResult = baseJsonResponse.getJSONObject("response");
 
-            JSONArray currentNewsArticles = baseJsonResponseResult.getJSONArray("results");
+            //Extract the JSONArray "results" from within the JSONObject baseJSONResponse
+            JSONArray newsArray = baseJsonResponseResult.getJSONArray("results");
 
-            //Make items
-            for (int n = 0; n < currentNewsArticles.length(); n++) {
-                JSONObject currentArticle = currentNewsArticles.getJSONObject(n);
+            // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
+            for (int i = 0; i < newsArray.length(); i++) {
 
-                title = currentArticle.getString("webTitle");
-                urlSource = currentArticle.getString("webUrl");
-                date = currentArticle.getString("webPublicationDate");
+                // Get a single news article at position i within the list of news
+                JSONObject currentNews = newsArray.getJSONObject(i);
 
-                JSONArray authorArray = currentArticle.getJSONArray("tags");
+                // Assign value of the key called "webTitle" to articleTitle
+                articleTitle = currentNews.getString("webTitle");
 
+                // Assign the value of the key called "sectionName" to articleSection
+                articleSection = currentNews.getString("sectionName");
 
+                // Extract value from the key called "webPublicationDate"
+                String rawDate = currentNews.getString("webPublicationDate");
+
+                // Get only the date characters from rawDate and assign to articlePublishDate
+                articlePublishDate = rawDate.substring(0, 10);
+
+                // Extract the value for the key called "url"
+                articleUrl = currentNews.getString("webUrl");
+
+                // Add a new {@link News} to the list of nes articles.
+                newsList.add(new News(articleTitle, articleSection, articlePublishDate, articleUrl));
             }
-        } catch (JSONException je){
-            Log.e(TAG, "extractNewsFromJson: Problem parsing results", je);
+
+        } catch (JSONException e) {
+            // If an error is thrown when executing any of the above statements in the "try" block,
+            // catch the exception here, so the app doesn't crash. Print a log message
+            // with the message from the exception.
+            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
         }
-        return myNews;
+
+        // Return the list of earthquakes
+        return newsList;
     }
 
 }

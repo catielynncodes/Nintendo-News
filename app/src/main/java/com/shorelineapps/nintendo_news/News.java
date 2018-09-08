@@ -1,28 +1,28 @@
 package com.shorelineapps.nintendo_news;
 
 /**
- * An {@link News} object contains information related to a single earthquake.
+ * An {@link News} object contains information related to a single news article.
  */
 public class News {
 
     /** Title of the news article */
     private String mArticleTitle;
 
-    /** Author of the news article */
-    private String mArticleAuthor;
+    /** Section of the news article */
+    private String mArticleSection;
 
     /** Date the news article was published */
-    private long mArticlePublishDate;
+    private String mArticlePublishDate;
 
-    /** Website URL of the earthquake */
+    /** Website URL of the news article */
     private String mArticleUrl;
 
     /**
      * Constructs a new {@link News} object.
      */
-    public News(String articleTitle, String articleAuthor, long articlePublishDate, String articleUrl) {
+    public News(String articleTitle, String articleSection, String articlePublishDate, String articleUrl) {
         mArticleTitle = articleTitle;
-        mArticleAuthor = articleAuthor;
+        mArticleSection = articleSection;
         mArticlePublishDate = articlePublishDate;
         mArticleUrl = articleUrl;
     }
@@ -35,16 +35,16 @@ public class News {
     }
 
     /**
-     * Returns the author of the news article.
+     * Returns the section of the news article.
      */
     public String getArticleAuthor() {
-        return mArticleAuthor;
+        return mArticleSection;
     }
 
     /**
      * Returns the date the news article was published.
      */
-    public long getArticlePublishDate() {
+    public String getArticlePublishDate() {
         return mArticlePublishDate;
     }
 

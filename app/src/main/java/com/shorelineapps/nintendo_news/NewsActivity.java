@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,9 +23,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public  abstract class NewsActivity extends AppCompatActivity
-        implements LoaderCallbacks<List<News>>,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+public class NewsActivity extends AppCompatActivity
+        implements LoaderCallbacks<List<News>> {
 
     private static final String LOG_TAG = NewsActivity.class.getName();
 
@@ -38,7 +38,7 @@ public  abstract class NewsActivity extends AppCompatActivity
      */
     private static final int NEWS_LOADER_ID = 1;
 
-    /** Adapter for the list of earthquakes */
+    /** Adapter for the list of articles */
     private NewsAdapter mAdapter;
 
     /** TextView that is displayed when the list is empty */
@@ -61,12 +61,6 @@ public  abstract class NewsActivity extends AppCompatActivity
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         newsListView.setAdapter(mAdapter);
-
-        // Obtain a reference to the SharedPreferences file for this app
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        // And register to be notified of preference changes
-        // So we know when the user has adjusted the query settings
-        prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected news.
@@ -99,10 +93,8 @@ public  abstract class NewsActivity extends AppCompatActivity
             // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
 
-            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-            // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+            loaderManager.initLoader(NEWS_LOADER_ID, null, NewsActivity.this);
+
         } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
@@ -113,9 +105,6 @@ public  abstract class NewsActivity extends AppCompatActivity
             mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
     }
-
-
-    // IS THIS SECTION STILL RELEVANT IN A DIFFERENT API??
 
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
