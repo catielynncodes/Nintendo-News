@@ -35,13 +35,13 @@
             tools:text="09-06-2018"/>
 
         <TextView
-            android:id="@+id/article_author"
+            android:id="@+id/article_section"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="start"
             android:textColor="@android:color/white"
-            tools:text="Yoko Shimomura"/>
+            tools:text="Games"/>
 
     </LinearLayout>
 

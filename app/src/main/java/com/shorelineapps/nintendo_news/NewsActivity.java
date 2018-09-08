@@ -55,7 +55,7 @@ public class NewsActivity extends AppCompatActivity
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         newsListView.setEmptyView(mEmptyStateTextView);
 
-        // Create a new adapter that takes an empty list of earthquakes as input
+        // Create a new adapter that takes an empty list of news articles as input
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
 
         // Set the adapter on the {@link ListView}
@@ -93,7 +93,10 @@ public class NewsActivity extends AppCompatActivity
             // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
 
-            loaderManager.initLoader(NEWS_LOADER_ID, null, NewsActivity.this);
+            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+            // because this activity implements the LoaderCallbacks interface).
+            loaderManager.initLoader(NEWS_LOADER_ID, null, this);
 
         } else {
             // Otherwise, display error
@@ -108,11 +111,8 @@ public class NewsActivity extends AppCompatActivity
 
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
-
-        Uri baseUri = Uri.parse(getString(NEWS_LOADER_ID));
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-
-        return new NewsLoader(this, uriBuilder.toString());
+        // Create a new loader for the given URL
+        return new NewsLoader(this, GUARDIAN_REQUEST_URL);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class News {
     /**
      * Returns the section of the news article.
      */
-    public String getArticleAuthor() {
+    public String getArticleSection() {
         return mArticleSection;
     }
 
