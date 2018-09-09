@@ -59,28 +59,17 @@ public class NewsAdapter extends ArrayAdapter<News> {
         // Find the TextView with view ID article_section
         TextView articleSectionView = (TextView) listItemView.findViewById(R.id.article_section);
 
-        // Display the location of the current earthquake in that TextView
+        // Display the section of the current article in that TextView
         articleSectionView.setText(currentNews.getArticleSection());
-
-        // Create a new Date object from the time in milliseconds of the earthquake
-        Date dateObject = new Date(currentNews.getArticlePublishDate());
 
         // Find the TextView with view ID article_publish_date
         TextView articlePublishDateView = (TextView) listItemView.findViewById(R.id.article_publish_date);
-        // Format the date string (i.e. "Mar 3, 1984")
-        String formattedDate = formatDate(dateObject);
-        // Display the date of the current earthquake in that TextView
-        articlePublishDateView.setText(formattedDate);
+
+        // Display the date of the current article in that TextView
+        articlePublishDateView.setText(currentNews.getArticlePublishDate());
 
         // Return the list item view that is now showing the appropriate data
         return listItemView;
     }
 
-    /**
-     * Return the formatted date string (i.e. "Mar 3, 1984") from a Date object.
-     */
-    private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject);
-    }
 }

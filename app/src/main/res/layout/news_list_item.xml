@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Layout for a single list item that displays an earthquake -->
-
+<!-- Layout for a single list item that displays a news article -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@android:color/darker_gray"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="8dp">
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/article_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/holo_red_dark"
         tools:text="Super Smash Bros Invites Waluigi! And also Yoshi eats eggs?!"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
         
         <TextView
             android:id="@+id/article_publish_date"
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="start"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             tools:text="09-06-2018"/>
 
         <TextView
@@ -40,26 +41,29 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="start"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             tools:text="Games"/>
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/article_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
-        android:textColor="@android:color/holo_red_dark"
+        android:text="@string/tap_to_read_more"
+        android:textColor="@android:color/darker_gray"
         tools:text="See Full Article"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@android:color/black"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"/>
 
 </LinearLayout>

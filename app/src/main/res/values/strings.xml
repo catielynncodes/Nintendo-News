@@ -4,4 +4,6 @@
 
     <string name="no_internet_connection">No internet connection</string>
     <string name="no_news">No news found.</string>
+
+    <string name="tap_to_read_more">Tap to Read More</string>
 </resources>

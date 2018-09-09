@@ -15,8 +15,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -69,6 +73,20 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }
         return url;
+    }
+
+    private static String formatDate(String rawDate) {
+        String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.US);
+        try {
+            Date parsedJsonDate = jsonFormatter.parse(rawDate);
+            String finalDatePattern = "MMM d, yyy";
+            SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.US);
+            return finalDateFormatter.format(parsedJsonDate);
+        } catch (ParseException e) {
+            Log.e("QueryUtils", "Error parsing JSON date: ", e);
+            return "";
+        }
     }
 
     /**
@@ -138,17 +156,13 @@ public final class QueryUtils {
      * parsing the given JSON response.
      */
     private static List<News> extractFeatureFromJson(String newsJSON) {
-        String articleTitle;
-        String articleSection;
-        String articlePublishDate;
-        String articleUrl;
 
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(newsJSON)) {
             return null;
         }
 
-        // Create an empty ArrayList that we can start adding earthquakes to
+        // Create an empty ArrayList that we can start adding news articles to
         List<News> newsList = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
@@ -165,28 +179,27 @@ public final class QueryUtils {
             //Extract the JSONArray "results" from within the JSONObject baseJSONResponse
             JSONArray newsArray = baseJsonResponseResult.getJSONArray("results");
 
-            // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
+            // For each article in the newsArray, create an {@link News} object
             for (int i = 0; i < newsArray.length(); i++) {
 
                 // Get a single news article at position i within the list of news
                 JSONObject currentNews = newsArray.getJSONObject(i);
 
                 // Assign value of the key called "webTitle" to articleTitle
-                articleTitle = currentNews.getString("webTitle");
+                String articleTitle = currentNews.getString("webTitle");
 
                 // Assign the value of the key called "sectionName" to articleSection
-                articleSection = currentNews.getString("sectionName");
+                String articleSection = currentNews.getString("sectionName");
 
                 // Extract value from the key called "webPublicationDate"
                 String rawDate = currentNews.getString("webPublicationDate");
-
-                // Get only the date characters from rawDate and assign to articlePublishDate
-                articlePublishDate = rawDate.substring(0, 10);
+                // Format the date
+                String articlePublishDate = formatDate(rawDate);
 
                 // Extract the value for the key called "url"
-                articleUrl = currentNews.getString("webUrl");
+                String articleUrl = currentNews.getString("webUrl");
 
-                // Add a new {@link News} to the list of nes articles.
+                // Add a new {@link News} to the list of news articles.
                 newsList.add(new News(articleTitle, articleSection, articlePublishDate, articleUrl));
             }
 
@@ -194,10 +207,10 @@ public final class QueryUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the news JSON results", e);
         }
 
-        // Return the list of earthquakes
+        // Return the list of news articles
         return newsList;
     }
 
