@@ -56,6 +56,12 @@ public class NewsAdapter extends ArrayAdapter<News> {
         // Display the title of the current article in that TextView
         articleTitleView.setText(currentNews.getArticleTitle());
 
+        // Find the TextView with the view ID article_author
+        TextView articleAuthorView = (TextView) listItemView.findViewById(R.id.article_author);
+
+        // Display the author name of the current article in that TextView
+        articleAuthorView.setText(currentNews.getArticleAuthor());
+
         // Find the TextView with view ID article_section
         TextView articleSectionView = (TextView) listItemView.findViewById(R.id.article_section);
 
