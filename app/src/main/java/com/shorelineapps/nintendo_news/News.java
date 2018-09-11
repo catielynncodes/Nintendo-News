@@ -8,6 +8,9 @@ public class News {
     /** Title of the news article */
     private String mArticleTitle;
 
+    /** Author of the news article */
+    private String mArticleAuthor;
+
     /** Section of the news article */
     private String mArticleSection;
 
@@ -20,37 +23,33 @@ public class News {
     /**
      * Constructs a new {@link News} object.
      */
-    public News(String articleTitle, String articleSection, String articlePublishDate, String articleUrl) {
+    public News(String articleTitle, String articleAuthor, String articleSection, String articlePublishDate, String articleUrl) {
         mArticleTitle = articleTitle;
+        mArticleAuthor = articleAuthor;
         mArticleSection = articleSection;
         mArticlePublishDate = articlePublishDate;
         mArticleUrl = articleUrl;
     }
 
-    /**
-     * Returns the title of the news article.
-     */
+    // Returns the title of the news article.
     public String getArticleTitle() {
         return mArticleTitle;
     }
 
-    /**
-     * Returns the section of the news article.
-     */
+    // Returns the author of the news article.
+    public String getArticleAuthor() { return mArticleAuthor; }
+
+    // Returns the section of the news article.
     public String getArticleSection() {
         return mArticleSection;
     }
 
-    /**
-     * Returns the date the news article was published.
-     */
+    // Returns the date the news article was published.
     public String getArticlePublishDate() {
         return mArticlePublishDate;
     }
 
-    /**
-     * Returns the website URL to find more information about the article.
-     */
+    // Returns the website URL to find more information about the article.
     public String getArticleUrl() {
         return mArticleUrl;
     }

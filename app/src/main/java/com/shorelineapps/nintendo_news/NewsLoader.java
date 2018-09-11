@@ -2,7 +2,6 @@ package com.shorelineapps.nintendo_news;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-
 import java.util.List;
 
 /**
@@ -10,9 +9,6 @@ import java.util.List;
  * network request to the given URL.
  */
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
-
-    /** Tag for log messages */
-    private static final String LOG_TAG = NewsLoader.class.getName();
 
     /** Query URL */
     private String mUrl;

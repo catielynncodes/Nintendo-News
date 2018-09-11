@@ -22,8 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Helper methods related to requesting and receiving news data from The Guardian API.
  */
@@ -118,7 +116,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -188,6 +186,15 @@ public final class QueryUtils {
                 // Assign value of the key called "webTitle" to articleTitle
                 String articleTitle = currentNews.getString("webTitle");
 
+                // Get JSONArray tags from within results object
+                JSONArray tagsArray = currentNews.getJSONArray("tags");
+
+                // Name the first JSONObject currentTags so we can get the string of webTitle key
+                JSONObject currentTags = tagsArray.getJSONObject(0);
+
+                //Assign the value of the key called "webTitle" to articleAuthor
+                String articleAuthor = currentTags.getString("webTitle");
+
                 // Assign the value of the key called "sectionName" to articleSection
                 String articleSection = currentNews.getString("sectionName");
 
@@ -200,7 +207,7 @@ public final class QueryUtils {
                 String articleUrl = currentNews.getString("webUrl");
 
                 // Add a new {@link News} to the list of news articles.
-                newsList.add(new News(articleTitle, articleSection, articlePublishDate, articleUrl));
+                newsList.add(new News(articleTitle, articleAuthor, articleSection, articlePublishDate, articleUrl));
             }
 
         } catch (JSONException e) {

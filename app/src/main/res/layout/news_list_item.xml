@@ -27,7 +27,7 @@
         android:layout_marginRight="16dp">
         
         <TextView
-            android:id="@+id/article_publish_date"
+            android:id="@+id/article_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -42,20 +42,39 @@
             android:layout_weight="1"
             android:layout_gravity="start"
             android:textColor="@android:color/black"
-            tools:text="Games"/>
+            tools:text="Yoko Shimomura"/>
 
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="bold"
-        android:text="@string/tap_to_read_more"
-        android:textColor="@android:color/darker_gray"
-        tools:text="See Full Article"
+        android:orientation="horizontal"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:id="@+id/article_publish_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="start"
+            android:textStyle="bold"
+            android:text="@string/tap_to_read_more"
+            android:textColor="@android:color/darker_gray"
+            tools:text="See Full Article" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="start"
+            android:textStyle="bold"
+            android:text="@string/tap_to_read_more"
+            android:textColor="@android:color/darker_gray"
+            tools:text="See Full Article" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
