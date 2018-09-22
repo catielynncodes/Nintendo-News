@@ -52,7 +52,7 @@ public final class QueryUtils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-
+        Log.i(LOG_TAG, "NINNEWS: the jsonResponse is: " + jsonResponse);
         // Extract relevant fields from the JSON response and create a list of {@link News}s
         List<News> newsList = extractFeatureFromJson(jsonResponse);
 

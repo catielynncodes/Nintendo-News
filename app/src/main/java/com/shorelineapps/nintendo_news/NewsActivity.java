@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,8 @@ public class NewsActivity extends AppCompatActivity
         implements LoaderCallbacks<List<News>> {
 
     /** URL for news data from the Guardian API */
-    private static final String GUARDIAN_REQUEST_URL =
-            "https://content.guardianapis.com/search?q=nintendo&show-tags=contributor&api-key=fd984008-1416-4e41-9a95-f0044f48f5f2";
+    private static String GUARDIAN_REQUEST_URL =
+            "https://content.guardianapis.com/search";
 
     /**
      * Constant value for the news loader ID. We can choose any integer.
@@ -129,16 +130,10 @@ public class NewsActivity extends AppCompatActivity
         // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
+        uriBuilder.appendQueryParameter("q", "nintendo");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("api-key", "fd984008-1416-4e41-9a95-f0044f48f5f2");
 
-        //  Have to change terminology etc below
-
-        // Append query parameter and its value. For example, the `format=geojson`
-        uriBuilder.appendQueryParameter("format", "geojson");
-        uriBuilder.appendQueryParameter("limit", "10");
-        uriBuilder.appendQueryParameter("minmag", minMagnitude);
-        uriBuilder.appendQueryParameter("orderby", orderBy);
-
-        // Return the completed uri `http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&limit=10&minmag=minMagnitude&orderby=time
         return new NewsLoader(this, uriBuilder.toString());
 
     }
