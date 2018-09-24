@@ -27,20 +27,21 @@ import java.util.List;
 public class NewsActivity extends AppCompatActivity
         implements LoaderCallbacks<List<News>> {
 
-    /** URL for news data from the Guardian API */
-    private static String GUARDIAN_REQUEST_URL =
+    // URL for news data from the Guardian API
+    private static final String GUARDIAN_REQUEST_URL =
             "https://content.guardianapis.com/search";
 
-    /**
-     * Constant value for the news loader ID. We can choose any integer.
-     * This really only comes into play if you're using multiple loaders.
-     */
+    // API key for accessing Guardian API data
+    private static final String GUARDIAN_KEY = "fd984008-1416-4e41-9a95-f0044f48f5f2";
+
+    // Constant value for the news loader ID. We can choose any integer.
+    // This really only comes into play if you're using multiple loaders.
     private static final int NEWS_LOADER_ID = 1;
 
-    /** Adapter for the list of articles */
+    // Adapter for the list of articles
     private NewsAdapter mAdapter;
 
-    /** TextView that is displayed when the list is empty */
+    // TextView that is displayed when the list is empty
     private TextView mEmptyStateTextView;
 
     @Override
@@ -49,9 +50,9 @@ public class NewsActivity extends AppCompatActivity
         setContentView(R.layout.news_activity);
 
         // Find a reference to the {@link ListView} in the layout
-        ListView newsListView = (ListView) findViewById(R.id.news_list);
+        ListView newsListView = findViewById(R.id.news_list);
 
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        mEmptyStateTextView = findViewById(R.id.empty_view);
         newsListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of news articles as input
@@ -61,8 +62,7 @@ public class NewsActivity extends AppCompatActivity
         // so the list can be populated in the user interface
         newsListView.setAdapter(mAdapter);
 
-        // Set an item click listener on the ListView, which sends an intent to a web browser
-        // to open a website with more information about the selected news.
+        // Set an item click listener on the ListView, which sends an intent to a web browser.
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -114,7 +114,12 @@ public class NewsActivity extends AppCompatActivity
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String orderBy  = sharedPrefs.getString(
+        // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String maxArticles = sharedPrefs.getString(
+                getString(R.string.settings_max_articles_key),
+                getString(R.string.settings_max_articles_default));
+
+        String orderBy = sharedPrefs.getString(
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default)
         );
@@ -126,15 +131,18 @@ public class NewsActivity extends AppCompatActivity
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("q", "nintendo");
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("page-size", maxArticles);
         uriBuilder.appendQueryParameter("show-tags", "contributor");
-        uriBuilder.appendQueryParameter("api-key", "fd984008-1416-4e41-9a95-f0044f48f5f2");
+        uriBuilder.appendQueryParameter("api-key", GUARDIAN_KEY);
 
+        //Return the completed URI
         return new NewsLoader(this, uriBuilder.toString());
-
     }
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
+
         // Hide loading indicator because the data has been loaded
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);

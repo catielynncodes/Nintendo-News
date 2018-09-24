@@ -51,25 +51,25 @@ public class NewsAdapter extends ArrayAdapter<News> {
         News currentNews = getItem(position);
 
         // Find the TextView with view ID article_title
-        TextView articleTitleView = (TextView) listItemView.findViewById(R.id.article_title);
+        TextView articleTitleView = listItemView.findViewById(R.id.article_title);
 
         // Display the title of the current article in that TextView
         articleTitleView.setText(currentNews.getArticleTitle());
 
         // Find the TextView with the view ID article_author
-        TextView articleAuthorView = (TextView) listItemView.findViewById(R.id.article_author);
+        TextView articleAuthorView = listItemView.findViewById(R.id.article_author);
 
         // Display the author name of the current article in that TextView
         articleAuthorView.setText(currentNews.getArticleAuthor());
 
         // Find the TextView with view ID article_section
-        TextView articleSectionView = (TextView) listItemView.findViewById(R.id.article_section);
+        TextView articleSectionView = listItemView.findViewById(R.id.article_section);
 
         // Display the section of the current article in that TextView
         articleSectionView.setText(currentNews.getArticleSection());
 
         // Find the TextView with view ID article_publish_date
-        TextView articlePublishDateView = (TextView) listItemView.findViewById(R.id.article_publish_date);
+        TextView articlePublishDateView = listItemView.findViewById(R.id.article_publish_date);
 
         // Display the date of the current article in that TextView
         articlePublishDateView.setText(currentNews.getArticlePublishDate());

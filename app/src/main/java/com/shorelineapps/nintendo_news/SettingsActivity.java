@@ -24,6 +24,11 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
 
+            // Get the max number of articles preference and apply
+            Preference maxArticles = findPreference(getString(R.string.settings_max_articles_key));
+            bindPreferenceSummaryToValue(maxArticles);
+
+            // Get the Order By preference and apply
             Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
             bindPreferenceSummaryToValue(orderBy);
         }
@@ -32,15 +37,16 @@ public class SettingsActivity extends AppCompatActivity {
         public boolean onPreferenceChange(Preference preference, Object value) {
             // The code in this method takes care of updating the displayed preference summary after it has been changed
             String stringValue = value.toString();
-            if(preference instanceof ListPreference){
+            if(preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
                 int prefIndex = listPreference.findIndexOfValue(stringValue);
-                if(prefIndex >= 0 ) {
+                if (prefIndex >= 0) {
                     CharSequence[] labels = listPreference.getEntries();
                     preference.setSummary(labels[prefIndex]);
-                } else {
-                    preference.setSummary(stringValue);
                 }
+            }
+            else {
+                preference.setSummary(stringValue);
             }
             return true;
         }
