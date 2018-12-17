@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nintendo-News</string>
+    <string name="app_name">Quick Reads</string>
 
     <!-- Response messages for no network or no data available  -->
     <string name="no_internet_connection">No internet connection</string>
@@ -27,4 +27,9 @@
     <!-- Label for order-by newest option [CHAR LIMIT=20] -->
     <string name="settings_order_by_newest_label">Newest</string>
     <string name="settings_order_by_newest_value" translatable="false">newest</string>
+
+    <!-- Settings strings for search terms -->
+    <string name="settings_search_label">Search terms</string>
+    <string name="settings_search_key" translatable="false">keyword</string>
+    <string name="settings_search_default" translatable="false"> </string>
 </resources>

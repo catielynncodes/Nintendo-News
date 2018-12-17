@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.util.Log;
 
@@ -44,6 +45,11 @@ public class NewsActivity extends AppCompatActivity
     // TextView that is displayed when the list is empty
     private TextView mEmptyStateTextView;
 
+    // ProgressBar view
+    private ProgressBar mProgressBar;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,8 @@ public class NewsActivity extends AppCompatActivity
 
         mEmptyStateTextView = findViewById(R.id.empty_view);
         newsListView.setEmptyView(mEmptyStateTextView);
+
+        mProgressBar = findViewById(R.id.loading_indicator);
 
         // Create a new adapter that takes an empty list of news articles as input
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
@@ -100,8 +108,7 @@ public class NewsActivity extends AppCompatActivity
         } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
-            View loadingIndicator = findViewById(R.id.loading_indicator);
-            loadingIndicator.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
 
             // Update empty state with no connection error message
             mEmptyStateTextView.setText(R.string.no_internet_connection);
@@ -115,6 +122,10 @@ public class NewsActivity extends AppCompatActivity
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String searchTerm = sharedPrefs.getString(
+                getString(R.string.settings_search_key),
+                getString(R.string.settings_search_default));
+
         String maxArticles = sharedPrefs.getString(
                 getString(R.string.settings_max_articles_key),
                 getString(R.string.settings_max_articles_default));
@@ -130,7 +141,7 @@ public class NewsActivity extends AppCompatActivity
         // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("q", "nintendo");
+        uriBuilder.appendQueryParameter("q", searchTerm);
         uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("page-size", maxArticles);
         uriBuilder.appendQueryParameter("show-tags", "contributor");
